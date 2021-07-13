@@ -9,18 +9,8 @@ import CrProduct from "./page/crproduct/CrProduct";
 import FixProduct from "./page/product/FixProduct";
 
 function App() {
-  // const [user] = useAuthState(auth);
-
   return (
     <Router>
-      {/* before login */}
-      {/* {!user ? ( */}
-      {/* <>
-          <Btob />
-        </> */}
-      {/* ) : ( */}
-      {/* // after login */}
-
       <div className="flex bg-gray-50 h-auto">
         <Sidebar />
         <Switch>
