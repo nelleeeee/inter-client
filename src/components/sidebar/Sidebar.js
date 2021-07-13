@@ -55,16 +55,18 @@ export default function Sidebar() {
 
       {/* 사이드바 좌하단 메뉴들 */}
       <div className="bg-gray-600 p-12 pb-96 text-lg text-gray-300 leading-10">
-        <div className="cursor-pointer hover:text-gray-50">상품관리</div>
-        <div className="cursor-pointer hover:text-gray-50">재고관리</div>
         <div
           onClick={() => history.push("/crproduct")}
           className="cursor-pointer hover:text-gray-50"
         >
-          수집상품
+          상품수집
         </div>
-        <div className="cursor-pointer hover:text-gray-50">메뉴들 2</div>
-        <div className="cursor-pointer hover:text-gray-50">메뉴들 3</div>
+        <div
+          onClick={() => history.push("/b2b")}
+          className="cursor-pointer hover:text-gray-50"
+        >
+          B2B
+        </div>
       </div>
     </div>
   );

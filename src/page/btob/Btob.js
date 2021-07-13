@@ -4,10 +4,8 @@ import BtobRow from "./BtobRow";
 export default function Btob() {
   //   재고 리스트
   const [product, setProduct] = useState([]);
-  //   로그인
 
   useEffect(() => {
-    //   기준정해서 orderBy
     db.collection("products").onSnapshot(snapshot => {
       setProduct(
         snapshot.docs.map(doc => ({
@@ -21,7 +19,7 @@ export default function Btob() {
   return (
     <>
       <div className="flex-col">
-        <div>btob</div>
+        <div>B2B</div>
         <div className="grid grid-cols-9 gap-2 grid-flow-col">
           <div>check</div>
           <div>썸넬</div>
@@ -42,9 +40,6 @@ export default function Btob() {
           ))}
         </div>
       </div>
-      {/* <div className=" text-gray-200 fixed right-1 bottom-1" onClick={signIn}>
-        o
-      </div> */}
     </>
   );
 }

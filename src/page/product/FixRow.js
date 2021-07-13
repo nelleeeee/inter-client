@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 
-export default function FixBigC({ id }) {
+export default function FixRow({ id, chName, cols }) {
   const [loading, setLoading] = useState(true);
-
   const [synData, setSynData] = useState([]);
 
   useEffect(() => {
@@ -19,11 +18,15 @@ export default function FixBigC({ id }) {
     };
     productsDbCall();
   }, [id]);
-  let synDatas = Object.entries(synData);
-  synDatas = synDatas.sort();
 
-  const { artist, channel, descrip, ent, imgUrl, relDate, thumbNail, title } =
-    synData;
+  let data1 = [];
+  let data2 = [];
+  let keys = [];
+  for (let key in cols) {
+    data1.push(cols[key]);
+    data2.push(synData[key]);
+    keys.push(key);
+  }
 
   const onChange = e => {
     const { value, name } = e.target;
@@ -38,14 +41,15 @@ export default function FixBigC({ id }) {
       {!loading && (
         <div className="flex-row">
           <div className="flex-col">
-            <div>Big Commerce</div>
-            {synDatas.map((data, index) => (
+            <div>{chName}</div>
+
+            {data1.map((data, index) => (
               <div key={index} className="grid grid-cols-2 gap-2 h-10">
-                <div>{data[0]}</div>
+                <div>{data}</div>
                 <input
                   type="text"
-                  name={data[0]}
-                  value={data[1]}
+                  name={keys[index]}
+                  value={data2[index]}
                   onChange={onChange}
                   className="shadow-md"
                 />

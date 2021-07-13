@@ -43,8 +43,6 @@ export default function Crawl() {
         />
         <button onClick={onReset}>가져오기</button>
       </form>
-      {channel}
-      {productId}
     </div>
   );
 }

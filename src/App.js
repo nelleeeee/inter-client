@@ -27,7 +27,7 @@ function App() {
           <Route path="/fixproduct/:id" component={FixProduct} />
           <Route path="/crproduct" component={CrProduct} />
           <Route path="/stocktable" component={Stocktable} />
-          <Route path="/btob" component={Btob} />
+          <Route path="/b2b" component={Btob} />
           <Route path="/" component={Home} />
         </Switch>
       </div>
