@@ -1,7 +1,11 @@
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import BtobRow from "./BtobRow";
+
+import { useHistory } from "react-router-dom";
+
 export default function Btob() {
+  const history = useHistory();
   //   재고 리스트
   const [product, setProduct] = useState([]);
 
@@ -20,6 +24,14 @@ export default function Btob() {
     <>
       <div className="flex-col">
         <div>B2B</div>
+
+        {/* 여기서 주문번호 생성 */}
+        <button
+          onClick={() => history.push("/b2border/ididid")}
+          className="cursor-pointer hover:text-gray-50"
+        >
+          주문하기
+        </button>
         <div className="grid grid-cols-9 gap-2 grid-flow-col">
           <div>check</div>
           <div>썸넬</div>

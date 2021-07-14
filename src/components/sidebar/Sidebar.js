@@ -61,11 +61,29 @@ export default function Sidebar() {
         >
           상품수집
         </div>
+        <div className="grid grid-cols-2">
+          <div
+            onClick={() => history.push("/b2b/admin")}
+            className="cursor-pointer hover:text-gray-50"
+          >
+            B2B
+          </div>
+          <div
+            onClick={() => history.push("/b2b")}
+            className="cursor-pointer hover:text-gray-50"
+          >
+            shop
+          </div>
+        </div>
+        {/* 거래처로 분류받은 매일로 관리 */}
+        <div className="cursor-pointer hover:text-gray-50">거래처관리</div>
+
+        {/* 여기서 구글 등 인증로그인한사람들 관리자/직원/거래처로 분류 */}
         <div
-          onClick={() => history.push("/b2b")}
+          onClick={() => history.push("/settings")}
           className="cursor-pointer hover:text-gray-50"
         >
-          B2B
+          설정
         </div>
       </div>
     </div>
