@@ -5,6 +5,7 @@ import Login from "./page/login/Login";
 import Btob from "./page/btob/Btob";
 import CrProduct from "./page/crproduct/CrProduct";
 import FixProduct from "./page/product/FixProduct";
+import AddProduct from "./page/product/AddProduct";
 import BtobOrder from "./page/btob/BtobOrder";
 import BtobAdmin from "./page/btob/BtobAdmin";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -40,9 +41,15 @@ function App() {
         <Router>
           <div className="flex bg-gray-50 h-auto">
             <Switch>
-              <Route path="/b2border/:id" component={BtobOrder} />
+              <Route
+                path="/b2border/:id"
+                render={props => <BtobOrder user={user} {...props} />}
+              />
 
-              <Route path="/" component={Btob} />
+              <Route
+                path="/"
+                render={props => <Btob user={user} {...props} />}
+              />
             </Switch>
           </div>
           <div
@@ -81,14 +88,21 @@ function App() {
             <Sidebar />
             <Switch>
               <Route path="/fixproduct/:id" component={FixProduct} />
+              <Route path="/addproduct" component={AddProduct} />
               <Route path="/crproduct" component={CrProduct} />
               <Route path="/stocktable" component={Stocktable} />
               <Route path="/settings" component={Settings} />
               {/* 로그인 안하면 로그인화면만 보여주고 */}
               {/* 로그인시 직원이면 다 가능 거래처면 /btob 관련만 */}
               <Route path="/b2b/admin" component={BtobAdmin} />
-              <Route path="/b2border/:id" component={BtobOrder} />
-              <Route path="/b2b" component={Btob} />
+              <Route
+                path="/b2border/:id"
+                render={props => <BtobOrder user={user} {...props} />}
+              />
+              <Route
+                path="/b2b"
+                render={props => <Btob user={user} {...props} />}
+              />
               <Route path="/" component={CrProduct} />
             </Switch>
           </div>

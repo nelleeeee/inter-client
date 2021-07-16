@@ -11,7 +11,7 @@ const Settings = () => {
     );
   }, []);
   return (
-    <div>
+    <div className="w-9/12">
       {/* 타이틀 */}
       <div>설정</div>
 

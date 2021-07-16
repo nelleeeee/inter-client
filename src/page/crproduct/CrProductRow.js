@@ -18,11 +18,12 @@ function CrProductRow({ id, requiredColsOb, product }) {
         </Link>
         {data.map(data =>
           data?.includes("https://firebasestorage") ? (
-            <div
+            <img
               key={data + "Row"}
               className="h-20 bg-contain bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${data})` }}
-            ></div>
+              src={data}
+              alt={id}
+            />
           ) : (
             <div key={data + "Row"}>{data}</div>
           )

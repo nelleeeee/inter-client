@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 export default function FixProduct({ match }) {
   const { id } = match.params;
-
+  console.log(match);
   const [requiredCols, setRequiredCols] = useState([]);
   useEffect(() => {
     db.collection("requiredCol").onSnapshot(snapshot => {
@@ -16,7 +16,7 @@ export default function FixProduct({ match }) {
     });
   }, []);
   return (
-    <div className="flex-col">
+    <div className="flex-col w-9/12">
       {requiredCols.map((col, index) => (
         <FixRow key={index} id={id} chName={col.id} cols={col.data} />
       ))}

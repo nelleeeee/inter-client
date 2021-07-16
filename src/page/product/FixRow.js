@@ -39,7 +39,7 @@ export default function FixRow({ id, chName, cols }) {
   return (
     <>
       {!loading && (
-        <div className="flex-row">
+        <div className="flex-row w-9/12">
           <div className="flex-col">
             <div>{chName}</div>
 

@@ -35,7 +35,7 @@ export default function CrProduct() {
   }, [colNamesCh]);
 
   return (
-    <div className="flex-col">
+    <div className="flex-col w-9/12">
       크롤링 프로덕트
       <Crawl />
       <select name="selected" defaultValue="syn" onChange={onChange}>
