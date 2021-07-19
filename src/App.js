@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Stocktable from "./page/stockTable/StockTable";
+import Stocktable from "./components/sidebar/stockTable/StockTable";
 import Sidebar from "./components/sidebar/Sidebar";
 import Login from "./page/login/Login";
-import Btob from "./page/btob/Btob";
-import CrProduct from "./page/crproduct/CrProduct";
-import FixProduct from "./page/product/FixProduct";
-import AddProduct from "./page/product/AddProduct";
+import Btob from "./page/btob/customer/Btob";
+import CrProduct from "./page/product/crproduct/CrProduct";
+import FixProduct from "./page/product/fixproduct/FixProduct";
+import AddProduct from "./page/product/addproduct/AddProduct";
 import BtobOrder from "./page/btob/BtobOrder";
 import BtobAdmin from "./page/btob/BtobAdmin";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -111,11 +111,15 @@ function App() {
     );
   }
 
-  // if (!user) {
-  //   <Login />;
-  // }
+  if (!user) {
+    return <Login />;
+  }
 
-  return <Login />;
+  return (
+    <div>
+      <Spinner name="ball-spin-fade-loader" color="purple" fadeIn="none" />
+    </div>
+  );
 }
 
 export default App;

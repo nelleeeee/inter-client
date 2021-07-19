@@ -1,6 +1,6 @@
 import FixRow from "./FixRow";
 import { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 export default function FixProduct({ match }) {
   const { id } = match.params;
   console.log(match);

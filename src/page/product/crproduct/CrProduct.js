@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Crawl from "./Crawl";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import CrProductRow from "./CrProductRow";
 
 export default function CrProduct() {

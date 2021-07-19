@@ -1,6 +1,6 @@
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import { useEffect, useState } from "react";
-import BtobRow from "./BtobRow";
+import BtobRow from "../BtobRow";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 
@@ -8,17 +8,6 @@ export default function Btob({ user }) {
   const history = useHistory();
   //   재고 리스트
   const [product, setProduct] = useState([]);
-
-  // Row 체크 핸들러
-  // const [checkedInputs, setCheckedInputs] = useState([]);
-  // const changeHandler = (checked, id) => {
-  //   if (checked) {
-  //     setCheckedInputs([...checkedInputs, id]);
-  //   } else {
-  //     // 체크 해제
-  //     setCheckedInputs(checkedInputs.filter(el => el !== id));
-  //   }
-  // };
 
   // Row 수량 핸들러(둘중 하나는 없어도 되는건가....)
   const [inputs, setInputs] = useState({});
@@ -51,8 +40,9 @@ export default function Btob({ user }) {
     for (let key in await inputs) {
       list.push({
         title: key,
-        quan: inputs[key],
-        price: product.filter(x => x.data.title === key)[0].data.price,
+        quan: Number(inputs[key]),
+        price:
+          Number(product.filter(x => x.data.title === key)[0].data.price) || 0,
       });
     }
 
@@ -69,7 +59,7 @@ export default function Btob({ user }) {
         customer: user.email,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         dcRate: userData.dcRate,
-        confirmed: false,
+        orderConfirm: false,
         list,
       });
 
@@ -103,7 +93,7 @@ export default function Btob({ user }) {
       .doc(user.email)
       .get()
       .then(doc => setUserData(doc.data()));
-  }, [user.email]);
+  }, [user]);
 
   return (
     <>
@@ -112,12 +102,15 @@ export default function Btob({ user }) {
         {/* {console.log(userData)} */}
 
         {/* 여기서 주문번호 생성 */}
-        <button
-          onClick={makeBtobOrder}
-          className="cursor-pointer hover:text-gray-50"
-        >
-          주문하기
-        </button>
+        {userData && (
+          <button
+            onClick={makeBtobOrder}
+            className="cursor-pointer hover:text-gray-50"
+          >
+            주문하기
+          </button>
+        )}
+
         <div className="grid grid-cols-9 gap-2 grid-flow-col">
           {/* <div>check</div> */}
           <div>썸넬</div>

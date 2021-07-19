@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 
 export default function FixRow({ id, chName, cols }) {
   const [loading, setLoading] = useState(true);

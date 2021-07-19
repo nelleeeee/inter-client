@@ -1,9 +1,30 @@
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 
 const BtobOrder = ({ match, user }) => {
   const { id } = match.params;
+  const history = useHistory();
+
   const [order, setOrder] = useState();
+
+  const confirmOrder = () => {
+    db.collection("orders")
+      .doc("b2b")
+      .collection("b2borders")
+      .doc(id)
+      .update({
+        orderConfirm: true,
+        totalPrice:
+          order &&
+          order.list.reduce((i, c) => {
+            return i + (c.price - order.dcRate * (1 / 100) * c.price) * c.quan;
+          }, 0),
+      });
+
+    alert("주문 완료");
+    history.push("/b2b");
+  };
 
   useEffect(() => {
     db.collection("orders")
@@ -90,6 +111,7 @@ const BtobOrder = ({ match, user }) => {
         <div className="grid grid-cols-6">
           {order && (
             <>
+              {console.log(order)}
               {order.list.map((doc, index) => (
                 <>
                   <div>{index + 1}</div>
@@ -115,12 +137,11 @@ const BtobOrder = ({ match, user }) => {
           <div>공급가액</div>
           <div>
             {order &&
-              order.list.reduce((s, c) => {
+              order.list.reduce((i, c) => {
                 return (
-                  (s.price - order.dcRate * (1 / 100) * s.price) * s.quan +
-                  (c.price - order.dcRate * (1 / 100) * c.price) * c.quan
+                  i + (c.price - order.dcRate * (1 / 100) * c.price) * c.quan
                 );
-              })}
+              }, 0)}
           </div>
         </div>
         <div className="grid grid-cols-2">
@@ -136,7 +157,7 @@ const BtobOrder = ({ match, user }) => {
       <div className="flex-col mb-10">
         <div className="grid grid-cols-2">
           <div>기본 약관/안내 체크하면 버튼 활성화</div>
-          <button>주문하기</button>
+          <button onClick={confirmOrder}>주문하기</button>
         </div>
       </div>
     </div>
