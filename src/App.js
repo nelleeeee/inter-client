@@ -6,13 +6,14 @@ import Btob from "./page/btob/customer/Btob";
 import CrProduct from "./page/product/crproduct/CrProduct";
 import FixProduct from "./page/product/fixproduct/FixProduct";
 import AddProduct from "./page/product/addproduct/AddProduct";
-import BtobOrder from "./page/btob/BtobOrder";
-import BtobAdmin from "./page/btob/BtobAdmin";
+import BtobOrder from "./page/btob/customer/BtobOrder";
+import BtobAdmin from "./page/btob/admin/BtobAdmin";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./firebase";
 import Spinner from "react-spinkit";
 import Settings from "./page/settings/Settings";
 import { useEffect, useState } from "react";
+import BtoBAdminRowDetail from "./page/btob/admin/BtoBAdminRowDetail";
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -28,8 +29,10 @@ function App() {
   // 로딩 페이지
   if (loading) {
     return (
-      <div>
-        <Spinner name="ball-spin-fade-loader" color="purple" fadeIn="none" />
+      <div className="grid place-items-center h-screen w-full">
+        <div className="text-center pb-24 flex flex-col justify-center items-center">
+          <Spinner name="ball-spin-fade-loader" color="gray" fadeIn="none" />
+        </div>
       </div>
     );
   }
@@ -51,12 +54,6 @@ function App() {
                 render={props => <Btob user={user} {...props} />}
               />
             </Switch>
-          </div>
-          <div
-            onClick={() => auth.signOut()}
-            className="text-2xl font-mono font-bold text-center text-gray-200 bg-blue-900 p-6"
-          >
-            InterAsia
           </div>
         </Router>
       </>
@@ -94,6 +91,11 @@ function App() {
               <Route path="/settings" component={Settings} />
               {/* 로그인 안하면 로그인화면만 보여주고 */}
               {/* 로그인시 직원이면 다 가능 거래처면 /btob 관련만 */}
+              <Route
+                exact
+                path="/b2b/admin/:id"
+                component={BtoBAdminRowDetail}
+              />
               <Route path="/b2b/admin" component={BtobAdmin} />
               <Route
                 path="/b2border/:id"
@@ -116,8 +118,10 @@ function App() {
   }
 
   return (
-    <div>
-      <Spinner name="ball-spin-fade-loader" color="purple" fadeIn="none" />
+    <div className="grid place-items-center h-screen w-full">
+      <div className="text-center pb-24 flex flex-col justify-center items-center">
+        <Spinner name="ball-spin-fade-loader" color="gray" fadeIn="none" />
+      </div>
     </div>
   );
 }

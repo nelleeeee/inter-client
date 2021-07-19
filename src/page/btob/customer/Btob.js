@@ -1,6 +1,6 @@
-import { db } from "../../../firebase";
+import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
-import BtobRow from "../BtobRow";
+import BtobRow from "./BtobRow";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 
@@ -43,6 +43,8 @@ export default function Btob({ user }) {
         quan: Number(inputs[key]),
         price:
           Number(product.filter(x => x.data.title === key)[0].data.price) || 0,
+        weight:
+          Number(product.filter(x => x.data.title === key)[0].data.weight) || 0,
       });
     }
 
@@ -59,7 +61,7 @@ export default function Btob({ user }) {
         customer: user.email,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         dcRate: userData.dcRate,
-        orderConfirm: false,
+        orderState: "makeOrder",
         list,
       });
 
@@ -90,31 +92,50 @@ export default function Btob({ user }) {
 
     // 할인 요율 위해 메일로 사용자 정보 가져오기
     db.collection("accounts")
-      .doc(user.email)
+      .doc(user?.email)
       .get()
       .then(doc => setUserData(doc.data()));
   }, [user]);
 
   return (
-    <>
-      <div className="flex-col w-9/12">
-        <div>B2B</div>
-        {/* {console.log(userData)} */}
-
-        {/* 여기서 주문번호 생성 */}
+    <div className="w-full h-screen flex justify-evenly">
+      <div className="mt-32 flex flex-col relative ">
         {userData && (
           <button
             onClick={makeBtobOrder}
-            className="cursor-pointer hover:text-gray-50"
+            className="cursor-pointer bg-blue-400 px-5 
+            py-2 rounded-md text-gray-100 font-semibold
+            mb-2"
           >
             주문하기
           </button>
         )}
 
-        <div className="grid grid-cols-9 gap-2 grid-flow-col">
+        <button
+          className="cursor-pointer bg-blue-400 px-5 
+          py-2 rounded-md text-gray-100 font-semibold
+          mb-2"
+        >
+          주문정보
+        </button>
+        <button
+          onClick={() => auth.signOut()}
+          className="cursor-pointer bg-blue-400 px-5 
+          py-2 rounded-md text-gray-100 font-semibold
+          mb-2"
+        >
+          로그아웃
+        </button>
+      </div>
+      <div className="flex flex-col w-2/3 mt-20">
+        <div
+          className="grid grid-cols-9 gap-2 grid-flow-col 
+        text-center mb-3 bg-blue-600 py-2 rounded-md 
+        text-gray-100 text-lg font-semibold"
+        >
           {/* <div>check</div> */}
-          <div>썸넬</div>
-          <div className="col-span-3">앨범명</div>
+          <div>커버</div>
+          <div className="col-span-5">타이틀</div>
           <div>출시일</div>
           <div>가격</div>
           <div>수량</div>
@@ -127,9 +148,6 @@ export default function Btob({ user }) {
               title={product.data.title}
               relDate={product.data.relDate}
               thumbNail={product.data.thumbNail}
-              // 체크 핸들러랑 체크된인풋리스트 전달
-              // changeHandler={changeHandler}
-              // checkedInputs={checkedInputs}
               quan={quan}
               name={product.id}
               onChange={onChange}
@@ -138,6 +156,6 @@ export default function Btob({ user }) {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
