@@ -24,7 +24,6 @@ const Settings = () => {
       {/* contents */}
       {/* contents header */}
       <div className="grid grid-cols-6">
-        {console.log(users)}
         <div>Type</div>
         <div>이름</div>
         <div>이메일</div>

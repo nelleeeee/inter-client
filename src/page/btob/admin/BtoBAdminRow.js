@@ -15,9 +15,13 @@ const BtoBAdminRow = ({
 }) => {
   if (orders) {
     return (
-      <Link to={{ pathname: `/b2b/admin/${id}`, state: { orders: orders } }}>
-        {orders && console.log(orders)}
-        <div className="grid grid-cols-11 gap-2 grid-flow-col text-center border-b-2 py-1">
+      <Link
+        to={{
+          pathname: `/b2b/admin/${id}`,
+          state: { orders },
+        }}
+      >
+        <div className="grid grid-cols-11 grid-flow-col text-center border-b border-l border-r py-1">
           <div>{id}</div>
           <div className="col-span-2">
             {new Date(createdAt.toDate()).toLocaleString()}

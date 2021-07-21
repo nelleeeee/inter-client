@@ -1,26 +1,42 @@
-import { auth, db } from "../../../firebase";
+import { db } from "../../../firebase";
 import { useEffect, useState } from "react";
-import BtobRow from "./BtobRow";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
+import PreOrderTable from "./preorder/PreOrderTable";
+import NoticeTable from "./notice/NoticeTable";
+import SimpleList from "./simplelist/SimpleList";
+import { Common } from "./common/Common";
 
 export default function Btob({ user }) {
   const history = useHistory();
   //   재고 리스트
   const [product, setProduct] = useState([]);
 
-  // Row 수량 핸들러(둘중 하나는 없어도 되는건가....)
-  const [inputs, setInputs] = useState({});
+  // 주문하기 버튼 - 주문 수량이 양수여야 활성화
+  const [confirmChecked, setConfirmCheck] = useState(false);
 
-  const { quan } = inputs; // 비구조화 할당을 통해 값 추출(빈 객체도 가능 -> 언디파인 출력)
+  // 노티스
+  const [notices, SetNotices] = useState([]);
+
+  // Row 수량 핸들러
+  const [inputs, setInputs] = useState({});
 
   const onChange = async e => {
     const { value, name } = e.target; // 우선 e.target 에서 quan 과 value 를 추출
-
-    await setInputs({
-      ...inputs,
-      [name]: value,
-    });
+    if (value <= 0) {
+      setInputs({
+        ...inputs,
+        [name]: 1,
+      });
+      setConfirmCheck(false);
+      alert("숫자 혹은 1개 이상의 수량을 입력해주세요");
+    } else {
+      await setInputs({
+        ...inputs,
+        [name]: Number(value),
+      });
+      setConfirmCheck(true);
+    }
   };
 
   // 주문하기 유저정보/ 주문번호생성
@@ -31,7 +47,6 @@ export default function Btob({ user }) {
 
   const makeBtobOrder = async () => {
     // 주문번호 생성
-    console.log(b2bOrderCounts[0].data + 1);
 
     // { title:제목, quan:수량 } 형태로 주문 리스트 배열로 만들어서 inputs에서 개체별로 push
     let list = [];
@@ -58,6 +73,7 @@ export default function Btob({ user }) {
       .collection("b2borders")
       .doc(b2bOrderId)
       .set({
+        orderNumber: b2bOrderId,
         customer: user.email,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         dcRate: userData.dcRate,
@@ -71,7 +87,7 @@ export default function Btob({ user }) {
       .doc("b2b")
       .set({ counts: b2bOrderCounts[0].data + 1 });
     setInputs({});
-    history.push(`/b2border/${b2bOrderId}`);
+    history.push(`/b2border/${user.uid}/${b2bOrderId}`);
   };
 
   // Row들 생성위한 상품데이터 가져와서 뿌려주기
@@ -95,67 +111,42 @@ export default function Btob({ user }) {
       .doc(user?.email)
       .get()
       .then(doc => setUserData(doc.data()));
+
+    // 노티스 가져오기
+    db.collection("notice")
+      .orderBy("index", "desc")
+      .onSnapshot(snapshot => {
+        SetNotices(
+          snapshot.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        );
+      });
   }, [user]);
 
   return (
-    <div className="w-full h-screen flex justify-evenly">
-      <div className="mt-32 flex flex-col relative ">
-        {userData && (
-          <button
-            onClick={makeBtobOrder}
-            className="cursor-pointer bg-blue-400 px-5 
-            py-2 rounded-md text-gray-100 font-semibold
-            mb-2"
-          >
-            주문하기
-          </button>
-        )}
-
-        <button
-          className="cursor-pointer bg-blue-400 px-5 
-          py-2 rounded-md text-gray-100 font-semibold
-          mb-2"
-        >
-          주문정보
-        </button>
-        <button
-          onClick={() => auth.signOut()}
-          className="cursor-pointer bg-blue-400 px-5 
-          py-2 rounded-md text-gray-100 font-semibold
-          mb-2"
-        >
-          로그아웃
-        </button>
-      </div>
-      <div className="flex flex-col w-2/3 mt-20">
-        <div
-          className="grid grid-cols-9 gap-2 grid-flow-col 
-        text-center mb-3 bg-blue-600 py-2 rounded-md 
-        text-gray-100 text-lg font-semibold"
-        >
-          {/* <div>check</div> */}
-          <div>커버</div>
-          <div className="col-span-5">타이틀</div>
-          <div>출시일</div>
-          <div>가격</div>
-          <div>수량</div>
+    // d1
+    <div className="w-full h-screen flex ">
+      {/* d2 -1 */}
+      <div className=" w-3/4 flex flex-col items-center mt-12">
+        {/* d3-1 */}
+        <div className="flex flex-row w-5/6 h-1/4 justify-evenly">
+          {/* d4 */}
+          {product && <PreOrderTable product={product} onChange={onChange} />}
+          {notices && <NoticeTable notices={notices} />}
         </div>
-        <div>
-          {product?.map(product => (
-            <BtobRow
-              key={product.id}
-              id={product.id}
-              title={product.data.title}
-              relDate={product.data.relDate}
-              thumbNail={product.data.thumbNail}
-              quan={quan}
-              name={product.id}
-              onChange={onChange}
-              price={product.data.price}
-            />
-          ))}
-        </div>
+        {/* d3-2 */}
+        <Common product={product} onChange={onChange} />
       </div>
+      {/* d2-2 */}
+      <SimpleList
+        confirmChecked={confirmChecked}
+        makeBtobOrder={makeBtobOrder}
+        userData={userData}
+        inputs={inputs}
+        product={product}
+      />
     </div>
   );
 }

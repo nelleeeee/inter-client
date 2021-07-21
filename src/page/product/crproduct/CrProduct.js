@@ -8,6 +8,8 @@ export default function CrProduct() {
   const [products, setProsucts] = useState([]);
 
   // 매체별 상품 등록을 위한 컬럼 목록 불러오기
+  // TO DO : 리콰이어 컬럼 대신 셀렉트에서 매체 바꾸면 등록 처리된
+  // 상품 표시되게 (ex 필드명 : B2bAdded)
   const [colNamesCh, setColNamesCh] = useState("syn");
 
   const [requiredColsOb, setRequiredColsOb] = useState({});

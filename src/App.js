@@ -18,7 +18,7 @@ import BtoBAdminRowDetail from "./page/btob/admin/BtoBAdminRowDetail";
 function App() {
   const [user, loading] = useAuthState(auth);
 
-  const [userType, setUserType] = useState();
+  const [userType, setUserType] = useState("before");
 
   useEffect(() => {
     db.collection("accounts")
@@ -26,8 +26,9 @@ function App() {
       .get()
       .then(doc => setUserType(doc?.data()?.type));
   }, [user]);
+
   // 로딩 페이지
-  if (loading) {
+  if (loading || userType === "before") {
     return (
       <div className="grid place-items-center h-screen w-full">
         <div className="text-center pb-24 flex flex-col justify-center items-center">
@@ -38,14 +39,14 @@ function App() {
   }
 
   // b2b
-  if (userType === "customer") {
+  if ((user && userType) === "customer") {
     return (
       <>
         <Router>
           <div className="flex bg-gray-50 h-auto">
             <Switch>
               <Route
-                path="/b2border/:id"
+                path="/b2border/:uid/:id"
                 render={props => <BtobOrder user={user} {...props} />}
               />
 
@@ -60,7 +61,7 @@ function App() {
     );
   }
   // 가입하고 승인 ㄴㄴ
-  if (userType === "none") {
+  if ((user && userType) === "none") {
     return (
       <>
         <div className="flex bg-gray-50 h-auto">
@@ -77,7 +78,7 @@ function App() {
   }
 
   // 어드민
-  if (userType === "admin") {
+  if ((user && userType) === "admin") {
     return (
       <>
         <Router>
@@ -98,7 +99,7 @@ function App() {
               />
               <Route path="/b2b/admin" component={BtobAdmin} />
               <Route
-                path="/b2border/:id"
+                path="/b2border/:uid/:id"
                 render={props => <BtobOrder user={user} {...props} />}
               />
               <Route

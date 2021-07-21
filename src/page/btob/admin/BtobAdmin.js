@@ -14,13 +14,13 @@ const BtobAdmin = () => {
   return (
     <div className="w-full h-full flex justify-center">
       <div className=" w-11/12 flex-col mt-20">
-        <div className="w-full text-center my-4 text-gray-600 text-2xl">
+        <div className="w-full text-center my-4 text-gray-800 text-2xl">
           주문확인
         </div>
         {/* <button>주문확인</button> */}
         <div
-          className="grid grid-cols-11 gap-2 grid-flow-col text-center mb-2
-         bg-blue-400 text-gray-100 py-1 rounded"
+          className="grid grid-cols-11  grid-flow-col text-center 
+         bg-gray-800 text-gray-100 py-1 rounded-sm"
         >
           <div>주문번호</div>
           <div className="col-span-2">주문시간</div>
