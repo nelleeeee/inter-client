@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import CommonRow from "./CommonRow";
 
 export const Common = ({ product, onChange }) => {
+  const [selectedCat, setSelectedCat] = useState("cd");
+
+  const selectCat = e => {
+    const { id } = e.target;
+    setSelectedCat(id);
+  };
+
+  // 카테고리 추가는 여기서
+  const category = ["cd", "dvd", "per", "goods", "limited", "beauty"];
+
   return (
     <div className="flex flex-col w-4/5 mt-12 overflow-y-auto">
       <div
@@ -9,12 +19,18 @@ export const Common = ({ product, onChange }) => {
         text-center  bg-gray-200  
         text-gray-600 text-md font-semibold"
       >
-        <div className="bg-gray-400 text-gray-100">CD</div>
-        <div className="">DVD</div>
-        <div className="">PER</div>
-        <div className="">GOODS</div>
-        <div className="">LIMITED</div>
-        <div className="">BEAUTY</div>
+        {category.map((doc, index) => (
+          <div
+            key={index}
+            onClick={selectCat}
+            id={doc}
+            className={`${
+              selectedCat === doc ? "bg-gray-400 text-gray-100" : ""
+            } `}
+          >
+            {doc.toUpperCase()}
+          </div>
+        ))}
       </div>
       <div
         className="grid grid-cols-14 grid-flow-col 
@@ -29,18 +45,22 @@ export const Common = ({ product, onChange }) => {
       </div>
       <div>
         {product &&
-          product.map(product => (
-            <CommonRow
-              key={product.id}
-              id={product.id}
-              title={product.data.title}
-              relDate={product.data.relDate}
-              thumbNail={product.data.thumbNail}
-              name={product.id}
-              onChange={onChange}
-              price={product.data.price}
-            />
-          ))}
+          product
+            .filter(
+              a => a.data.type === "common" && a.data.category === selectedCat
+            )
+            .map(product => (
+              <CommonRow
+                key={product.id}
+                id={product.id}
+                title={product.data.title}
+                relDate={product.data.relDate}
+                thumbNail={product.data.thumbNail}
+                name={product.id}
+                onChange={onChange}
+                price={product.data.price}
+              />
+            ))}
       </div>
     </div>
   );

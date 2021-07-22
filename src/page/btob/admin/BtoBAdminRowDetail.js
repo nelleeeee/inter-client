@@ -26,6 +26,7 @@ const BtoBAdminRowDetail = ({ match, location }) => {
     orderState: order.find(order => order.id === id).data.orderState,
     paymentMethod: order.find(order => order.id === id).data.paymentMethod,
     shippingType: order.find(order => order.id === id).data.shippingType,
+    shippingMessage: order.find(order => order.id === id).data.shippingMessage,
   });
 
   const {
@@ -37,6 +38,7 @@ const BtoBAdminRowDetail = ({ match, location }) => {
     orderState,
     paymentMethod,
     shippingType,
+    shippingMessage,
   } = inputs;
 
   const onChange = e => {
@@ -71,166 +73,189 @@ const BtoBAdminRowDetail = ({ match, location }) => {
   }, []);
   return (
     <div className="w-full h-full flex justify-center">
-      {orders &&
-        order &&
-        (console.log(order.find(order => order.id === id).data.orderState),
-        console.log(orderState),
-        (
-          <div className="w-11/12 flex-col mt-20">
-            <div
-              className="text-center text-xl bg-gray-800 py-1 
+      {orders && order && (
+        <div className="w-11/12 flex-col mt-20">
+          <div
+            className="text-center text-xl bg-gray-800 py-1 
         rounded-sm font-bold text-gray-100 mb-5 w-full"
-            >
-              주문 내용 확인
-            </div>
-
-            <div className="flex flex-row justify-evenly">
-              {/* 주문내용 확인 */}
-              <div className="flex-col mb-10 flex space-y-2">
-                <div className="grid grid-cols-2">
-                  <div>주문번호</div>
-                  <div>{id}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>주문상태</div>
-                  <select
-                    name="orderState"
-                    value={orderState}
-                    onChange={onChange}
-                  >
-                    <option value="makeOrder">주문서작성중</option>
-                    <option value="confirmOrder">주문완료</option>
-                    <option value="packaging">포장중</option>
-                    <option value="shipping">배송중</option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>이메일</div>
-                  <div>
-                    {orders.find(order => order.id === id).data.customer}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>주문일</div>
-                  {new Date(
-                    orders
-                      .find(order => order.id === id)
-                      .data.createdAt.toDate()
-                  ).toLocaleString()}
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>결제방법</div>
-
-                  <select
-                    name="paymentMethod"
-                    value={paymentMethod}
-                    onChange={onChange}
-                  >
-                    <option value="transfer">계좌이체</option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>발송방법</div>
-                  <select
-                    name="shippingType"
-                    value={shippingType}
-                    onChange={onChange}
-                  >
-                    <option value="dhl">DHL</option>
-                    <option value="ems">EMS</option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>전화번호</div>
-                  {
-                    orders.find(order => order.id === id).data
-                      .recipientPhoneNumber
-                  }
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>할인율</div>
-                  <div>
-                    {orders.find(order => order.id === id).data.dcRate} %
-                  </div>
-                </div>
-              </div>
-              {/* 수령인 파트 */}
-
-              <div className="flex-col mb-10 flex space-y-2">
-                <div className="text-center">수령인</div>
-                <div className="grid grid-cols-2">
-                  <div>email</div>
-                  <input
-                    name="recipientEmail"
-                    value={recipientEmail}
-                    onChange={onChange}
-                  />{" "}
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>전화번호</div>
-                  <input
-                    name="recipientPhoneNumber"
-                    value={recipientPhoneNumber}
-                    onChange={onChange}
-                  />{" "}
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>주소</div>
-                  <input
-                    name="address"
-                    value={address}
-                    onChange={onChange}
-                  />{" "}
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>우편번호</div>
-                  <input
-                    name="zipcode"
-                    value={zipcode}
-                    onChange={onChange}
-                  />{" "}
-                </div>
-                <div className="grid grid-cols-2">
-                  <div>이름</div>
-                  <input
-                    name="recipient"
-                    value={recipient}
-                    onChange={onChange}
-                  />{" "}
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full text-center">상품종류</div>
-            <div className="grid grid-cols-10 text-center bg-gray-800 rounded-sm text-gray-100">
-              <div>No.</div>
-              <div className="col-span-5">앨범명</div>
-              <div>판매가</div>
-              <div>할인가</div>
-              <div>수량</div>
-              <div>금액</div>
-            </div>
-            <div>
-              {orders &&
-                order &&
-                orders
-                  .find(order => order.id === id)
-                  .data.list.map((doc, index) => (
-                    <BtoBAdminRowDetailRow
-                      key={index}
-                      index={index}
-                      title={doc.title}
-                      price={doc.price}
-                      quan={doc.quan}
-                      weight={doc.weight}
-                      dcRate={orders.find(order => order.id === id).data.dcRate}
-                    />
-                  ))}
-            </div>
-            <div>{console.log(orders)}</div>
-            <button onClick={saveDetails}>저장하기</button>
+          >
+            주문 내용 확인
           </div>
-        ))}
+
+          <div className="flex flex-row justify-evenly">
+            {/* 주문내용 확인 */}
+            <div className="flex-col mb-10 flex space-y-2">
+              <div className="grid grid-cols-2">
+                <div>주문번호</div>
+                <div>{id}</div>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>주문상태</div>
+                <select
+                  name="orderState"
+                  value={orderState}
+                  onChange={onChange}
+                >
+                  <option value="makeOrder">주문서작성중</option>
+                  <option value="confirmOrder">주문완료</option>
+                  <option value="packaging">포장중</option>
+                  <option value="shipping">배송중</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>이메일</div>
+                <div>{orders.find(order => order.id === id).data.customer}</div>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>주문일</div>
+                {new Date(
+                  orders.find(order => order.id === id).data.createdAt.toDate()
+                ).toLocaleString()}
+              </div>
+              <div className="grid grid-cols-2">
+                <div>결제방법</div>
+
+                <select
+                  name="paymentMethod"
+                  value={paymentMethod}
+                  onChange={onChange}
+                >
+                  <option value="transfer">계좌이체</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>발송방법</div>
+                <select
+                  name="shippingType"
+                  value={shippingType}
+                  onChange={onChange}
+                >
+                  <option value="dhl">DHL</option>
+                  <option value="ems">EMS</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>전화번호</div>
+                {
+                  orders.find(order => order.id === id).data
+                    .recipientPhoneNumber
+                }
+              </div>
+              <div className="grid grid-cols-1">
+                <div className="text-center my-1 font-semibold">할인율</div>
+                <div className="grid grid-cols-6 bg-gray-600 text-center text-gray-100 rounded-sm px-1">
+                  {Object.keys(
+                    orders.find(order => order.id === id).data.dcRates
+                  ).map(doc => (
+                    <div>{doc}</div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-6 text-center border-b px-1 border-l border-r text-sm">
+                  {Object.values(
+                    orders.find(order => order.id === id).data.dcRates
+                  ).map(doc => (
+                    <div>{doc * 100} %</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* 수령인 파트 */}
+
+            <div className="flex-col mb-10 flex space-y-2">
+              <div className="text-center">수령인</div>
+              <div className="grid grid-cols-2">
+                <div>email</div>
+                <input
+                  name="recipientEmail"
+                  value={recipientEmail}
+                  onChange={onChange}
+                />{" "}
+              </div>
+              <div className="grid grid-cols-2">
+                <div>전화번호</div>
+                <input
+                  name="recipientPhoneNumber"
+                  value={recipientPhoneNumber}
+                  onChange={onChange}
+                />{" "}
+              </div>
+              <div className="grid grid-cols-2">
+                <div>주소</div>
+                <input
+                  name="address"
+                  value={address}
+                  onChange={onChange}
+                />{" "}
+              </div>
+              <div className="grid grid-cols-2">
+                <div>우편번호</div>
+                <input
+                  name="zipcode"
+                  value={zipcode}
+                  onChange={onChange}
+                />{" "}
+              </div>
+              <div className="grid grid-cols-2">
+                <div>이름</div>
+                <input
+                  name="recipient"
+                  value={recipient}
+                  onChange={onChange}
+                />{" "}
+              </div>
+              <div className="grid grid-cols-2">
+                <div>요청사항</div>
+                <input
+                  name="shippingMessage"
+                  value={shippingMessage}
+                  onChange={onChange}
+                />{" "}
+              </div>
+              <button onClick={saveDetails}>저장하기</button>
+            </div>
+          </div>
+
+          <div className="w-full text-center">상품종류</div>
+          <div className="grid grid-cols-20 text-center bg-gray-800 rounded-sm text-gray-100">
+            <div></div>
+            <div>No.</div>
+            <div className="col-span-2">주문일</div>
+            <div className="col-span-2">발매일</div>
+            <div className="col-span-9">앨범명</div>
+            <div>판매가</div>
+            <div className="col-span-2">할인가</div>
+            <div>수량</div>
+            <div>금액</div>
+          </div>
+          <div>
+            {orders &&
+              order &&
+              orders
+                .find(order => order.id === id)
+                .data.list.map((doc, index) => (
+                  <BtoBAdminRowDetailRow
+                    key={index}
+                    index={index}
+                    createdAt={new Date(
+                      orders
+                        .find(order => order.id === id)
+                        .data.createdAt.toDate()
+                    ).toLocaleDateString()}
+                    title={doc.title}
+                    relDate={doc.relDate}
+                    price={doc.price}
+                    quan={doc.quan}
+                    weight={doc.weight}
+                    dcRate={doc.dcRate}
+                  />
+                ))}
+          </div>
+
+          <div className="w-full text-center">SHIPPING 1</div>
+          <div className="w-full text-center">SHIPPING 2</div>
+          <div className="w-full text-center">SHIPPING 3</div>
+        </div>
+      )}
     </div>
   );
 };

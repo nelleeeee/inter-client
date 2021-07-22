@@ -19,13 +19,12 @@ const BtobAdmin = () => {
         </div>
         {/* <button>주문확인</button> */}
         <div
-          className="grid grid-cols-11  grid-flow-col text-center 
+          className="grid grid-cols-10  grid-flow-col text-center 
          bg-gray-800 text-gray-100 py-1 rounded-sm"
         >
           <div>주문번호</div>
           <div className="col-span-2">주문시간</div>
           <div className="col-span-2">주문자</div>
-          <div>할인율</div>
           <div>주문종류</div>
           <div>주문상태</div>
           <div>주문총가격</div>
@@ -40,7 +39,6 @@ const BtobAdmin = () => {
                 id={order.id}
                 createdAt={order.data.createdAt}
                 customer={order.data.customer}
-                dcRate={order.data.dcRate}
                 listLength={order.data.list.length}
                 orderState={order.data.orderState}
                 totalPrice={order.data.totalPrice}

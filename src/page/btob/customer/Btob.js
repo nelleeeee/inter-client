@@ -26,7 +26,7 @@ export default function Btob({ user }) {
     if (value <= 0) {
       setInputs({
         ...inputs,
-        [name]: 1,
+        [name]: 0,
       });
       setConfirmCheck(false);
       alert("숫자 혹은 1개 이상의 수량을 입력해주세요");
@@ -57,9 +57,17 @@ export default function Btob({ user }) {
         title: key,
         quan: Number(inputs[key]),
         price:
-          Number(product.filter(x => x.data.title === key)[0].data.price) || 0,
+          Number(product.find(arr => arr.data.title === key).data.price) || 0,
         weight:
-          Number(product.filter(x => x.data.title === key)[0].data.weight) || 0,
+          Number(product.find(arr => arr.data.title === key).data.weight) || 0,
+
+        dcRate:
+          Number(
+            userData.dcRates[
+              product.find(arr => arr.data.title === key).data.category
+            ]
+          ) || 0,
+        relDate: product.find(arr => arr.data.title === key).data.relDate || 0,
       });
     }
 
@@ -76,7 +84,7 @@ export default function Btob({ user }) {
         orderNumber: b2bOrderId,
         customer: user.email,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        dcRate: userData.dcRate,
+        dcRates: userData.dcRates,
         orderState: "makeOrder",
         list,
       });

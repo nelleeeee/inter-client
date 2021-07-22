@@ -27,18 +27,20 @@ const PreOrderTable = ({ product, onChange }) => {
       {/* 표 로우 */}
       <div className=" ">
         {product &&
-          product.map(product => (
-            <PreOrderRow
-              key={product.id}
-              id={product.id}
-              title={product.data.title}
-              relDate={product.data.relDate}
-              thumbNail={product.data.thumbNail}
-              name={product.id}
-              onChange={onChange}
-              price={product.data.price}
-            />
-          ))}
+          product
+            .filter(a => a.data.type === "preOrder")
+            .map(product => (
+              <PreOrderRow
+                key={product.id}
+                id={product.id}
+                title={product.data.title}
+                relDate={product.data.relDate}
+                thumbNail={product.data.thumbNail}
+                name={product.id}
+                onChange={onChange}
+                price={product.data.price}
+              />
+            ))}
       </div>
     </div>
   );

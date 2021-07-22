@@ -12,21 +12,26 @@ const SimpleList = ({
   const truncate = (string, n) => {
     return string?.length > n ? string.substr(0, n - 1) + " . . ." : string;
   };
+
   let list = [];
   if (inputs && product) {
     // 반목문에서 인덱스로 사용
     for (let key in inputs) {
-      list.push({
-        title: truncate(key, 50),
-        quan: Number(inputs[key]),
-        price:
-          Number(product.filter(x => x.data.title === key)[0].data.price) || 0,
-        totalPrice:
-          Number(product.filter(x => x.data.title === key)[0].data.price) *
-            Number(inputs[key]) || 0,
-      });
+      if (inputs[key]) {
+        list.push({
+          title: truncate(key, 50),
+          quan: Number(inputs[key]),
+          price:
+            Number(product.filter(x => x.data.title === key)[0].data.price) ||
+            0,
+          totalPrice:
+            Number(product.filter(x => x.data.title === key)[0].data.price) *
+              Number(inputs[key]) || 0,
+        });
+      }
     }
   }
+
   return (
     <div className=" h-2/3 w-1/5 mt-32 flex flex-col text-center text-sm font-bold text-gray-800">
       CHECKED LIST

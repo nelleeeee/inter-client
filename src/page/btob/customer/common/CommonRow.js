@@ -10,7 +10,7 @@ export default function BtobRow({
   return (
     <div
       id={id}
-      className="grid grid-cols-12 place-items-center text-center text-sm border-b py-1"
+      className="grid grid-cols-12 place-items-center text-center text-sm border-b border-l border-r py-1"
     >
       <img
         className="h-10 bg-contain bg-center bg-no-repeat rounded-sm"

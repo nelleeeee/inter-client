@@ -1,15 +1,14 @@
-import AddRow from "./AddRow";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { db } from "../../../firebase";
 import { useHistory } from "react-router-dom";
 
 export default function AddProduct() {
   const history = useHistory();
 
-  // const [requiredCols, setRequiredCols] = useState([]);
-
+  // 인풋값
   const [inputs, setInputs] = useState({
     title: "",
+    price: "",
     artist: "",
     ent: "",
     relDate: "",
@@ -19,6 +18,8 @@ export default function AddProduct() {
     x: "",
     y: "",
     z: "",
+    type: "common",
+    category: "cd",
   });
 
   const {
@@ -33,11 +34,28 @@ export default function AddProduct() {
     x,
     y,
     z,
+    type,
+    category,
   } = inputs;
 
+  // 인풋 칸들
+  const inputsNames = [
+    { title: "제목" },
+    { price: "가격" },
+    { artist: "그룹명" },
+    { ent: "소속사" },
+    { relDate: "출시일" },
+    { thumbNail: "썸네일" },
+    { descrip: "상세페이지" },
+    { weight: "무게" },
+    { x: "가로" },
+    { y: "세로" },
+    { z: "높이" },
+    { type: "타입" },
+    { category: "카테고리" },
+  ];
+
   const addProduct = () => {
-    // db.collection("products").doc("test").set(addData);
-    // history.push("/crproduct");
     db.collection("products")
       .doc(title)
       .set({
@@ -52,7 +70,13 @@ export default function AddProduct() {
         x: Number(x),
         y: Number(y),
         z: Number(z),
+        type,
+        category,
+        channel: "add",
+        imgUrl: "",
       });
+
+    alert("저장되었습니다");
   };
   const onChange = e => {
     const { value, name } = e.target;
@@ -61,18 +85,8 @@ export default function AddProduct() {
       ...inputs,
       [name]: value,
     });
+    console.log(inputs);
   };
-  // useEffect(() => {
-  //   db.collection("requiredCol").onSnapshot(snapshot => {
-  //     setRequiredCols(
-  //       snapshot.docs.map(doc => ({
-  //         id: doc.id,
-  //         data: doc.data(),
-  //       }))
-  //     );
-  //   });
-  //   console.log(requiredCols);
-  // }, []);
 
   return (
     <div className="flex-col w-9/12">
@@ -89,99 +103,57 @@ export default function AddProduct() {
               <div>등록하기</div>
             </div>
             <div>
-              <div className="flex">
-                <div>앨범명</div>
-                <input
-                  type="text"
-                  onChange={onChange}
-                  name="title"
-                  value={title}
-                />
-              </div>
-              <div className="flex">
-                <div>가격</div>
-                <input
-                  type="number"
-                  onChange={onChange}
-                  name="price"
-                  value={price}
-                />
-              </div>
-              <div className="flex">
-                <div>그룹명</div>
-                <input
-                  type="text"
-                  onChange={onChange}
-                  name="artist"
-                  value={artist}
-                />
-              </div>
-              <div className="flex">
-                <div>소속사</div>
-                <input type="text" onChange={onChange} name="ent" value={ent} />
-              </div>
-              <div className="flex">
-                <div>출시일</div>
-                <input
-                  type="date"
-                  onChange={onChange}
-                  name="relDate"
-                  value={relDate}
-                />
-              </div>
-              <div className="flex">
-                <div>썸네일</div>
-                <input
-                  type="text"
-                  onChange={onChange}
-                  name="thumbNail"
-                  value={thumbNail}
-                />
-              </div>
-              <div className="flex">
-                <div>상세페이지</div>
-                <input
-                  type="text"
-                  onChange={onChange}
-                  name="descrip"
-                  value={descrip}
-                />
-              </div>
-              <div className="flex">
-                <div>무게</div>
-                <input
-                  type="number"
-                  onChange={onChange}
-                  name="weight"
-                  value={weight}
-                />
-              </div>
-              <div className="flex">
-                <div>가로</div>
-                <input type="number" onChange={onChange} name="x" value={x} />
-              </div>
-              <div className="flex">
-                <div>세로</div>
-                <input type="number" onChange={onChange} name="y" value={y} />
-              </div>
-              <div className="flex">
-                <div>높이</div>
-                <input type="number" onChange={onChange} name="z" value={z} />
-              </div>
+              {Object.keys(inputs).map((doc, index) =>
+                doc !== "relDate" && doc !== "type" && doc !== "category" ? (
+                  <div key={index} className="flex">
+                    <div>{inputsNames[index][doc]}</div>
+                    <input
+                      type="text"
+                      onChange={onChange}
+                      name={`${doc}`}
+                      value={inputs.doc}
+                    />
+                  </div>
+                ) : doc === "relDate" ? (
+                  <div key={index} className="flex">
+                    <div>{inputsNames[index][doc]}</div>
+                    <input
+                      type="date"
+                      onChange={onChange}
+                      name={`${doc}`}
+                      value={inputs.doc}
+                    />
+                  </div>
+                ) : doc === "type" ? (
+                  <div key={index} className="flex">
+                    <div>{inputsNames[index][doc]}</div>
+                    <select name={`${doc}`} value={type} onChange={onChange}>
+                      <option value="common">일반상품</option>
+                      <option value="preOrder">선주문상품</option>
+                    </select>
+                  </div>
+                ) : (
+                  <div key={index} className="flex">
+                    <div>{inputsNames[index][doc]}</div>
+                    <select
+                      name={`${doc}`}
+                      value={category}
+                      onChange={onChange}
+                    >
+                      <option value="cd">CD</option>
+                      <option value="dvd">DVD</option>
+                      <option value="per">PER</option>
+                      <option value="goods">GOOD</option>
+                      <option value="limited">LIMITED</option>
+                      <option value="beauty">BEAUTY</option>
+                    </select>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
       </div>
-
-      {/* {requiredCols.map((col, index) => (
-        <AddRow
-          key={index}
-          chName={col.id}
-          cols={col.data}
-          setAddData={setAddData}
-          onChange={onChange}
-        />
-      ))} */}
     </div>
   );
 }

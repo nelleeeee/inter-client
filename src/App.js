@@ -51,7 +51,7 @@ function App() {
               />
 
               <Route
-                path="/"
+                path="/b2b"
                 render={props => <Btob user={user} {...props} />}
               />
             </Switch>

@@ -71,7 +71,7 @@ const BtobOrder = ({ match, user }) => {
         totalPrice:
           order &&
           order.list.reduce((i, c) => {
-            return i + (c.price - order.dcRate * (1 / 100) * c.price) * c.quan;
+            return i + (c.price - c.dcRate * c.price) * c.quan;
           }, 0),
         paymentMethod,
         recipient,
@@ -240,14 +240,12 @@ const BtobOrder = ({ match, user }) => {
                   <div className="col-span-5">{doc.title}</div>
                   <div>{doc.price} 원</div>
                   <div>
-                    {doc.price - order.dcRate * (1 / 100) * doc.price} 원
-                    {` [${order.dcRate} %]`}
+                    {doc.price - doc.dcRate * doc.price} 원
+                    {` [${doc.dcRate * 100} %]`}
                   </div>
                   <div>{doc.quan} 개</div>
                   <div>
-                    {(doc.price - order.dcRate * (1 / 100) * doc.price) *
-                      doc.quan}{" "}
-                    원
+                    {(doc.price - doc.dcRate * doc.price) * doc.quan} 원
                   </div>
                 </div>
               ))}
@@ -261,16 +259,20 @@ const BtobOrder = ({ match, user }) => {
             <div>
               {order &&
                 order.list.reduce((i, c) => {
-                  return (
-                    i + (c.price - order.dcRate * (1 / 100) * c.price) * c.quan
-                  );
+                  return i + (c.price - c.dcRate * c.price) * c.quan;
                 }, 0)}{" "}
               원
             </div>
           </div>
           <div className="grid grid-cols-2 w-1/2 text-right">
-            <div>예상운송비</div>
-            <div>내용</div>
+            <div>총무게</div>
+            <div>
+              {order &&
+                order.list.reduce((i, c) => {
+                  return i + c.weight * c.quan;
+                }, 0)}{" "}
+              KG
+            </div>
           </div>
           <div className="grid grid-cols-2 w-1/2 text-right">
             <div>합계</div>
