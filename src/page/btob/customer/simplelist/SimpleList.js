@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { auth } from "../../../../firebase";
 import SimpleListRow from "./SimpleListRow";
+import Modal from "../../../../components/modal/Modal";
+import CustomerChat from "../../chat/CustomerChat";
 
 const SimpleList = ({
   confirmChecked,
@@ -9,6 +11,14 @@ const SimpleList = ({
   inputs,
   product,
 }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const truncate = (string, n) => {
     return string?.length > n ? string.substr(0, n - 1) + " . . ." : string;
   };
@@ -62,8 +72,8 @@ const SimpleList = ({
               onClick={makeBtobOrder}
               className={`${
                 confirmChecked
-                  ? "cursor-pointer bg-gray-800 px-5 py-2 rounded-sm text-gray-100 font-semibold mb-2"
-                  : "cursor-pointer bg-gray-100 px-5 py-2 rounded-sm text-gray-100 font-semibold mb-2"
+                  ? "cursor-pointer bg-gray-800 px-3 py-1 rounded-sm text-gray-100 font-semibold mb-2"
+                  : "cursor-pointer bg-gray-200 px-3 py-1 rounded-sm text-gray-300 font-semibold mb-2"
               }`}
             >
               주문하기
@@ -71,16 +81,28 @@ const SimpleList = ({
           )}
 
           <button
-            className="cursor-pointer bg-gray-800 px-5 
-          py-2 rounded-sm text-gray-100 font-semibold
+            className="cursor-pointer bg-gray-800 px-3 
+          py-1 rounded-sm text-gray-100 font-semibold
           mb-2"
           >
-            주문정보
+            내주문
           </button>
+
+          <button
+            onClick={openModal}
+            className="cursor-pointer bg-gray-800 px-3 
+          py-1 rounded-sm text-gray-100 font-semibold
+          mb-2"
+          >
+            문의하기
+          </button>
+          <Modal open={modalOpen} close={closeModal} header={"헤더"}>
+            <CustomerChat userData={userData} />{" "}
+          </Modal>
           <button
             onClick={() => auth.signOut()}
-            className="cursor-pointer bg-gray-800 px-5 
-          py-2 rounded-sm text-gray-100 font-semibold
+            className="cursor-pointer bg-gray-800 px-3 
+          py-1 rounded-sm text-gray-100 font-semibold
           mb-2"
           >
             로그아웃

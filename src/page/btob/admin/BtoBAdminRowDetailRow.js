@@ -5,6 +5,7 @@ const BtoBAdminRowDetailRow = ({
   price,
   quan,
   weight,
+  totalWeight,
   dcRate,
   relDate,
   index,
@@ -15,7 +16,7 @@ const BtoBAdminRowDetailRow = ({
     relDate.toDate().toLocaleDateString() < today.toLocaleDateString();
   return (
     <div
-      className={` place-items-center grid grid-cols-20 grid-flow-col text-center border-b border-l border-r py-1 ${
+      className={` text-sm place-items-center grid grid-cols-28 grid-flow-col text-center border-b border-l border-r py-1 ${
         !preOrder ? "bg-red-200" : ""
       }`}
     >
@@ -24,12 +25,14 @@ const BtoBAdminRowDetailRow = ({
       <div className="col-span-2">{createdAt}</div>
 
       <div className="col-span-2">{relDate.toDate().toLocaleDateString()} </div>
-      <div className="col-span-9">{title}</div>
-      <div>{price} </div>
+      <div className="col-span-15">{title}</div>
+      <div>{price} 원</div>
       <div className="col-span-2">
-        {price - price * dcRate} {`[${dcRate * 100}%]`}
+        {price - price * dcRate} 원 {`[${dcRate * 100}%]`}
       </div>
+      <div>{weight} g</div>
       <div>{quan} 개</div>
+      <div>{Math.round(totalWeight * 0.001 * 10) / 10} kg</div>
       <div>{price * quan} 원</div>
     </div>
   );

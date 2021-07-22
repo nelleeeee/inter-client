@@ -216,16 +216,19 @@ const BtoBAdminRowDetail = ({ match, location }) => {
           </div>
 
           <div className="w-full text-center">상품종류</div>
-          <div className="grid grid-cols-20 text-center bg-gray-800 rounded-sm text-gray-100">
+          <div className="grid grid-cols-28 text-center bg-gray-800 rounded-sm text-gray-100">
             <div></div>
             <div>No.</div>
             <div className="col-span-2">주문일</div>
             <div className="col-span-2">발매일</div>
-            <div className="col-span-9">앨범명</div>
+            <div className="col-span-15">앨범명</div>
             <div>판매가</div>
             <div className="col-span-2">할인가</div>
+            <div>무게</div>
             <div>수량</div>
-            <div>금액</div>
+            <div>총무게</div>
+
+            <div>총액</div>
           </div>
           <div>
             {orders &&
@@ -246,14 +249,29 @@ const BtoBAdminRowDetail = ({ match, location }) => {
                     price={doc.price}
                     quan={doc.quan}
                     weight={doc.weight}
+                    totalWeight={doc.weight * doc.quan}
                     dcRate={doc.dcRate}
                   />
                 ))}
           </div>
+          <div className="text-right flex flex-col items-end mt-6 text-lg">
+            <div className="grid grid-cols-2 w-96 mb-3">
+              <div>총무게</div>
+              <div>123124 kg</div>
+            </div>
+            <div className="grid grid-cols-2 w-96  mb-3">
+              <div>예상운송비</div>
+              <div>123123 원</div>
+            </div>
+            <div className="grid grid-cols-2 w-96 ">
+              <div>총액</div>
+              <div>1233463456 원</div>
+            </div>
+          </div>
 
-          <div className="w-full text-center">SHIPPING 1</div>
+          {/* <div className="w-full text-center">SHIPPING 1</div>
           <div className="w-full text-center">SHIPPING 2</div>
-          <div className="w-full text-center">SHIPPING 3</div>
+          <div className="w-full text-center">SHIPPING 3</div> */}
         </div>
       )}
     </div>
