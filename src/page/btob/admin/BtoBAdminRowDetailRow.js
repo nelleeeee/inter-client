@@ -20,7 +20,7 @@ const BtoBAdminRowDetailRow = ({
         !preOrder ? "bg-red-200" : ""
       }`}
     >
-      <input type="checkbox" className="" />
+      <input type="number" className=" w-full" />
       <div>{index + 1}</div>
       <div className="col-span-2">{createdAt}</div>
 

@@ -7,9 +7,7 @@ const Message = ({ user, message, createdAt }) => {
         <>
           <div className="flex flex-row justify-start">
             <div className="w-2/5 bg-gray-200">
-              <div className=" text-xs">
-                {user === "interasiadev@gmail.com" ? "관리자" : user}
-              </div>
+              <div className=" text-xs">관리자</div>
               <div className="bg-white rounded-md w-auto p-1">{message}</div>
             </div>
 
@@ -25,11 +23,6 @@ const Message = ({ user, message, createdAt }) => {
               <div className=" text-xs">
                 {user === "interasiadev@gmail.com" ? "관리자" : user}
               </div>
-              <div className="bg-white w-auto rounded-md p-1">{message}</div>
-              <div className="bg-white w-auto rounded-md p-1">{message}</div>
-              <div className="bg-white w-auto rounded-md p-1">{message}</div>
-              <div className="bg-white w-auto rounded-md p-1">{message}</div>
-              <div className="bg-white w-auto rounded-md p-1">{message}</div>
               <div className="bg-white w-auto rounded-md p-1">{message}</div>
             </div>
 

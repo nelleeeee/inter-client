@@ -29,7 +29,7 @@ export default function Sidebar() {
   }, []);
   return (
     //   사이드 바
-    <div className="flex-col items-center w-auto">
+    <div className="flex-col items-center w-auto ">
       {/* 사명 */}
       <div
         onClick={() => auth.signOut()}
@@ -56,7 +56,7 @@ export default function Sidebar() {
       </div>
 
       {/* 사이드바 좌하단 메뉴들 */}
-      <div className="bg-gray-600 p-12 pb-96 text-lg text-gray-300 leading-10">
+      <div className="bg-gray-600 p-12 text-lg text-gray-300 leading-10">
         {/* 상품 */}
 
         <div
@@ -89,6 +89,12 @@ export default function Sidebar() {
         <div className="cursor-pointer hover:text-gray-50">거래처관리</div>
 
         {/* 여기서 구글 등 인증로그인한사람들 관리자/직원/거래처로 분류 */}
+        <div
+          onClick={() => history.push("/chats")}
+          className="cursor-pointer hover:text-gray-50"
+        >
+          CHAT
+        </div>
         <div
           onClick={() => history.push("/settings")}
           className="cursor-pointer hover:text-gray-50"

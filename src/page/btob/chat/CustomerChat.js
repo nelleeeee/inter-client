@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase";
+import ChatInput from "./ChatInput";
 import Message from "./Message";
 
 const CustomerChat = ({ userData }) => {
@@ -35,6 +36,7 @@ const CustomerChat = ({ userData }) => {
           />
         );
       })}
+      <ChatInput userData={userData} roomId={roomId} />
     </div>
   );
 };
