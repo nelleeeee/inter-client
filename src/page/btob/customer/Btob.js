@@ -50,6 +50,9 @@ export default function Btob({ user }) {
 
     // { title:제목, quan:수량 } 형태로 주문 리스트 배열로 만들어서 inputs에서 개체별로 push
     let list = [];
+    let i = 0;
+    // 주문건수 + 1000 으로 주문번호 생성해서 스트링으로 저장
+    const b2bOrderId = await String(b2bOrderCounts[0].data + 1000);
 
     // 반목문에서 인덱스로 사용
     for (let key in await inputs) {
@@ -68,11 +71,11 @@ export default function Btob({ user }) {
             ]
           ) || 0,
         relDate: product.find(arr => arr.data.title === key).data.relDate || 0,
+        orderNumber: b2bOrderId,
+        childOrderNumber: `${b2bOrderId}-${i + 1}`,
       });
+      i++;
     }
-
-    // 주문건수 + 1000 으로 주문번호 생성해서 스트링으로 저장
-    const b2bOrderId = await String(b2bOrderCounts[0].data + 1000);
 
     // doc 아이디에 생성한 주문번호 넣고 inputs 에 들어있는 정보로 주문 저장
     await db

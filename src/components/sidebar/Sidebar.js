@@ -85,6 +85,13 @@ export default function Sidebar() {
             shop
           </div>
         </div>
+        {/* 미발송 */}
+        <div
+          onClick={() => history.push("/unshipped")}
+          className="cursor-pointer hover:text-gray-50"
+        >
+          미발송관리
+        </div>
         {/* 거래처로 분류받은 매일로 관리 */}
         <div className="cursor-pointer hover:text-gray-50">거래처관리</div>
 

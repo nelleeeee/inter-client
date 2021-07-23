@@ -146,15 +146,15 @@ const BtoBAdminRowDetail = ({ match, location }) => {
                 <div className="grid grid-cols-6 bg-gray-600 text-center text-gray-100 rounded-sm px-1">
                   {Object.keys(
                     orders.find(order => order.id === id).data.dcRates
-                  ).map(doc => (
-                    <div>{doc}</div>
+                  ).map((doc, index) => (
+                    <div key={index}>{doc}</div>
                   ))}
                 </div>
                 <div className="grid grid-cols-6 text-center border-b px-1 border-l border-r text-sm">
                   {Object.values(
                     orders.find(order => order.id === id).data.dcRates
-                  ).map(doc => (
-                    <div>{doc * 100} %</div>
+                  ).map((doc, index) => (
+                    <div key={index}>{doc * 100} %</div>
                   ))}
                 </div>
               </div>

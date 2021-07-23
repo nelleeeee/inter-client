@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 import BtoBAdminRowDetail from "./page/btob/admin/BtoBAdminRowDetail";
 import AdminChat from "./page/btob/chat/AdminChat";
 import Invoices from "./page/btob/admin/Invoices";
+import UnShipped from "./page/btob/admin/UnShipped";
+import UnShippedRowDetail from "./page/btob/admin/UnShippedRowDetail";
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -94,6 +96,18 @@ function App() {
               <Route path="/settings" component={Settings} />
               {/* 로그인 안하면 로그인화면만 보여주고 */}
               {/* 로그인시 직원이면 다 가능 거래처면 /btob 관련만 */}
+              {/* 미발송건 */}
+              <Route
+                exact
+                path="/unshipped/:id"
+                render={props => <UnShippedRowDetail {...props} />}
+              />
+
+              <Route
+                exact
+                path="/unshipped"
+                render={props => <UnShipped {...props} />}
+              />
               {/* 인보이스 */}
               <Route
                 exact

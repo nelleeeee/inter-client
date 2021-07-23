@@ -5,7 +5,10 @@ const AdminChatSidebar = ({ rooms, setRoomId }) => {
     <div className="h-screen w-1/3 flex flex-col bg-red-200 overflow-y-scroll">
       {rooms &&
         rooms.map(room => (
-          <div className="h-auto p-2 bg-gray-200 text-center my-2 border">
+          <div
+            key={room.id}
+            className="h-auto p-2 bg-gray-200 text-center my-2 border"
+          >
             <div key={room.id} onClick={() => setRoomId(room.id)}>
               {room.data.userName}
             </div>
